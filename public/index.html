@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">    
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mini Chat</title>
+    <!-- Importar la libreria de bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+<body class="container">
+    <h1 class="mt-5">Bienvenido al Mini Chat</h1>
+    <form id="chatFormulario">
+        <div class="row">
+            <div class="col-8">
+                <input id="messageInput" type="text" placeholder="Escribe tu nombre aquí..." class="form-control" />
+            </div>
+            <div class="col-4">
+                <button type="submit" id="sendMessage">Enviar</button>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col">
+            <ul id="messagesList" class="mt-2 mb-2"></ul>
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.js" integrity="sha512-8BHxHDLsOHx+flIrQ0DrZcea7MkHqRU5GbTHmbdzMRnAaoCIkZ97PqZcXJkKZckMMhqfoeaJE+DNUVuyoQsO3Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        const socket = io('http://localhost:3000');
+        const formulario = document.querySelector('#chatFormulario');
+        const messagesList = document.querySelector('#messagesList');
+        const messageInput = document.querySelector('#messageInput');
+        
+        formulario.addEventListener('submit', (ev) => {
+            ev.preventDefault();
+            const message = messageInput.value;
+            socket.emit('mensaje-cliente', { message });
+            messageInput.value = '';
+        });
+
+        socket.on('mensaje-from-server', (data) => {
+            const li = document.createElement('li');
+            li.innerText = `${data.msg} - ${new Date(data.fecha).toLocaleTimeString()}`;
+            messagesList.appendChild(li);
+        }); 
+    </script>
+</body>
+</html>

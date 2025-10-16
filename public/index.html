@@ -25,10 +25,12 @@
             <ul id="messagesList" class="mt-2 mb-2"></ul>
         </div>
     </div>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.js" integrity="sha512-8BHxHDLsOHx+flIrQ0DrZcea7MkHqRU5GbTHmbdzMRnAaoCIkZ97PqZcXJkKZckMMhqfoeaJE+DNUVuyoQsO3Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.min.js" integrity="sha512-..." crossorigin="anonymous"></script>
+
     <script>
-        const socket = io('https://react-socket-server-navy.vercel.app/');
+        const socket = io('https://react-socket-server.up.railway.app', {
+         transports: ['websocket']
+        }); 
         const formulario = document.querySelector('#chatFormulario');
         const messagesList = document.querySelector('#messagesList');
         const messageInput = document.querySelector('#messageInput');

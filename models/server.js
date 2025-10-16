@@ -3,6 +3,7 @@ const http = require('http');
 const socketio = require('socket.io');
 const path = require('path');
 const Socket = require('./socket');
+const cors = require('cors');
 
 class Server {
     constructor() { 
@@ -33,6 +34,9 @@ class Server {
         this.app.get('/', (req, res) => {
             res.sendFile(path.resolve(__dirname, '../public/index.html'));
         });
+
+        //CORS
+        this.app.use(cors());
     }
 
     configuracionSockets() {
